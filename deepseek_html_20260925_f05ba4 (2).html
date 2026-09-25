@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noelson Telecom | Telemarketing Portfolio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #6366f1;
+            --dark: #0f172a;
+            --muted: #64748b;
+            --light-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --bg-image: url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&q=80');
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .font-outfit { font-family: 'Outfit', sans-serif; }
+
+        .bg-image-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-image: var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: rgba(255, 255, 255, 0.15); 
+        }
+
+        main, header, footer { position: relative; z-index: 2; }
+
+        .header-sticky {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .header-sticky.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 40px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-divider {
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary), transparent);
+            border-radius: 2px;
+        }
+
+        .service-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
+        }
+
+        .service-card:hover::before { transform: scaleX(1); }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(14, 165, 233, 0.15);
+            border-color: rgba(14, 165, 233, 0.25);
+        }
+
+        .service-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            object-fit: cover;
+            flex-shrink: 0;
+            margin-top: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .pricing-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px 24px;
+            transition: all 0.35s ease;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--primary);
+            box-shadow: 0 12px 40px rgba(14, 165, 233, 0.18);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-card.featured:hover {
+            box-shadow: 0 20px 60px rgba(14, 165, 233, 0.28);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.45);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: #ffffff;
+            padding: 10px 26px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .testimonial-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.35s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-item {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active {
+            border-color: var(--primary);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.12);
+        }
+
+        .faq-question {
+            padding: 18px 22px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover { background: #f8fafc; }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+            padding: 0 22px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 22px 18px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+            color: var(--primary);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0; right: -100%;
+            width: 75%;
+            height: 100vh;
+            background: #fff;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+            transition: right 0.35s ease;
+            z-index: 100;
+            padding: 80px 30px;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .mobile-nav.open { right: 0; }
+
+        .mobile-nav a {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--dark);
+            text-decoration: none;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mobile-nav a:hover { color: var(--primary); }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-nav { display: flex; }
+            .desktop-nav { display: none; }
+            .hero-title { font-size: 2.2rem !important; }
+            .stat-number { font-size: 2rem; }
+            .glass-panel { padding: 20px; margin: 10px auto; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.8rem !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-image-layer"></div>
+<div class="bg-overlay"></div>
+
+<header class="header-sticky fixed top-0 w-full z-50" id="header">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#home" class="flex items-center gap-3">
+            <img src="https://play-lh.googleusercontent.com/AKQn47okB4Qh5Qs0zx_CXj5iFRdePtpTSnf-T1UjFW49aSjwAnaTqaGy-35JqwHOKETvan8F4B6WkMQ6XiERFQw=w240-h480-rw" alt="Noelson Telecom Logo" class="h-10 w-auto object-contain rounded-md">
+            <span class="font-outfit font-bold text-xl text-gradient">Noelson Telecom</span>
+        </a>
+        <nav class="desktop-nav flex items-center gap-6">
+            <a href="#home" class="text-sm font-medium text-slate-600 hover:text-sky-500 transition">Home</a>
+            <a href="#services" class="text-sm font-medium text-slate-600 hover:text-sky-500 transition">Services</a>
+            <a href="#pricing" class="text-sm font-medium text-slate-600 hover:text-sky-500 transition">Pricing</a>
+            <a href="#about" class="text-sm font-medium text-slate-600 hover:text-sky-500 transition">About</a>
+            <a href="#faq" class="text-sm font-medium text-slate-600 hover:text-sky-500 transition">FAQ</a>
+            <a href="https://t.me/Callerservices1" target="_blank" class="btn-outline text-sm py-2 px-4 flex items-center gap-2"><i class="fab fa-telegram-plane"></i> Telegram</a>
+            <a href="#contact" class="btn-primary text-sm">Contact Us</a>
+        </nav>
+        <button class="md:hidden text-2xl text-slate-700" id="menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+    </div>
+</header>
+
+<div class="mobile-nav" id="mobile-nav">
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#about">About</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://t.me/Callerservices1" target="_blank" class="text-sky-500 font-bold flex items-center gap-2"><i class="fab fa-telegram-plane"></i> Telegram</a>
+    <a href="#contact" class="btn-primary text-center mt-4">Contact Us</a>
+</div>
+
+<main>
+    <section id="home" class="pt-32 pb-20 px-6">
+        <div class="glass-panel max-w-4xl mx-auto text-center reveal">
+            <span class="inline-block text-xs font-semibold tracking-widest uppercase text-sky-600 mb-4 bg-sky-100 px-4 py-1.5 rounded-full border border-sky-200">Telecom & B2B Lead Generation</span>
+            <h1 class="hero-title text-4xl lg:text-6xl font-bold leading-tight mb-6 text-slate-900">Turn Conversations Into <span class="text-gradient">Conversions</span></h1>
+            <p class="text-slate-600 text-lg leading-relaxed max-w-2xl mx-auto mb-8">Noelson Telecom helps businesses grow through strategic cold calling, high-quality B2B leads, and enterprise telecom solutions like SIP Trunking and VoIP services.</p>
+            <div class="flex flex-wrap gap-4 justify-center">
+                <a href="#contact" class="btn-primary">Get a Free Consultation</a>
+                <a href="#services" class="btn-outline">View Services</a>
+            </div>
+            <div class="flex items-center gap-6 mt-10 justify-center">
+                <div class="flex -space-x-2">
+                    <div class="w-9 h-9 rounded-full bg-sky-100 border-2 border-white flex items-center justify-center text-xs font-bold text-sky-600">JD</div>
+                    <div class="w-9 h-9 rounded-full bg-indigo-100 border-2 border-white flex items-center justify-center text-xs font-bold text-indigo-600">SM</div>
+                    <div class="w-9 h-9 rounded-full bg-emerald-100 border-2 border-white flex items-center justify-center text-xs font-bold text-emerald-600">RK</div>
+                </div>
+                <p class="text-sm text-slate-600"><strong class="text-slate-800">120+</strong> happy clients worldwide</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 px-6">
+        <div class="glass-panel max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center reveal">
+            <div><div class="stat-number">5+</div><p class="text-sm text-slate-600 mt-1">Years Experience</p></div>
+            <div><div class="stat-number">50K+</div><p class="text-sm text-slate-600 mt-1">Calls Made</p></div>
+            <div><div class="stat-number">85%</div><p class="text-sm text-slate-600 mt-1">Success Rate</p></div>
+            <div><div class="stat-number">120+</div><p class="text-sm text-slate-600 mt-1">Happy Clients</p></div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 px-6">
+        <div class="glass-panel max-w-7xl mx-auto">
+            <div class="text-center mb-14 reveal">
+                <div class="gradient-divider w-20 mx-auto mb-5"></div>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-3 text-slate-900">Our <span class="text-gradient">Services</span></h2>
+                <p class="text-slate-600 max-w-xl mx-auto">From enterprise telecom solutions to high-converting B2B leads, we provide end-to-end solutions tailored to your business needs.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=200&q=80" alt="SIP Trunking" class="service-img"><div><h3 class="font-semibold text-lg mb-2">SIP Trunking</h3><p class="text-slate-500 text-sm leading-relaxed">Scalable SIP trunk solutions for businesses to make and receive calls over the internet.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1563222213-251549aa4152?w=200&q=80" alt="VoIP Services" class="service-img"><div><h3 class="font-semibold text-lg mb-2">VoIP Services</h3><p class="text-slate-500 text-sm leading-relaxed">Complete Voice over IP solutions including setup, termination, and wholesale routes.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=200&q=80" alt="DID Numbers" class="service-img"><div><h3 class="font-semibold text-lg mb-2">DID Numbers</h3><p class="text-slate-500 text-sm leading-relaxed">Local, national, and toll-free DID numbers across the globe to establish a local presence.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=200&q=80" alt="Crypto Leads" class="service-img"><div><h3 class="font-semibold text-lg mb-2">Crypto Leads</h3><p class="text-slate-500 text-sm leading-relaxed">High-intent leads for crypto exchanges, wallets, and trading platforms.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=200&q=80" alt="Binance Leads" class="service-img"><div><h3 class="font-semibold text-lg mb-2">Binance Leads</h3><p class="text-slate-500 text-sm leading-relaxed">Targeted Binance user leads for trading bots, signal groups, and portfolio services.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&q=80" alt="Cold Calling" class="service-img"><div><h3 class="font-semibold text-lg mb-2">Cold Calling</h3><p class="text-slate-500 text-sm leading-relaxed">Strategic outbound calls to introduce your product or service and generate interest.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=200&q=80" alt="B2B Lead Generation" class="service-img"><div><h3 class="font-semibold text-lg mb-2">B2B Lead Generation</h3><p class="text-slate-500 text-sm leading-relaxed">Identify and qualify high-quality B2B leads that match your ideal customer profile.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=200&q=80" alt="Appointment Setting" class="service-img"><div><h3 class="font-semibold text-lg mb-2">Appointment Setting</h3><p class="text-slate-500 text-sm leading-relaxed">Fill your calendar with qualified meetings by reaching out, pitching, and confirming.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=200&q=80" alt="CRM Management" class="service-img"><div><h3 class="font-semibold text-lg mb-2">CRM Management</h3><p class="text-slate-500 text-sm leading-relaxed">Keep your customer database clean, organized, and up-to-date with accurate notes.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=200&q=80" alt="Bulk SMS Services" class="service-img"><div><h3 class="font-semibold text-lg mb-2">Bulk SMS Services</h3><p class="text-slate-500 text-sm leading-relaxed">High-volume SMS campaigns for marketing, alerts, and customer engagement.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=200&q=80" alt="Call Center Outsourcing" class="service-img"><div><h3 class="font-semibold text-lg mb-2">Call Center Outsourcing</h3><p class="text-slate-500 text-sm leading-relaxed">Dedicated call center agents to handle your inbound and outbound support seamlessly.</p></div></div>
+                <div class="service-card reveal"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=200&q=80" alt="Real Estate & Solar Leads" class="service-img"><div><h3 class="font-semibold text-lg mb-2">Real Estate & Solar Leads</h3><p class="text-slate-500 text-sm leading-relaxed">Exclusive, high-ticket B2B leads for real estate agents and solar panel companies.</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-20 px-6">
+        <div class="glass-panel max-w-7xl mx-auto">
+            <div class="text-center mb-14 reveal">
+                <div class="gradient-divider w-20 mx-auto mb-5"></div>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-3 text-slate-900">Transparent <span class="text-gradient">Pricing Plans</span></h2>
+                <p class="text-slate-600 max-w-xl mx-auto">Flexible packages designed for businesses of all sizes. All plans include a free consultation.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="pricing-card reveal">
+                    <h3 class="font-semibold text-lg mb-1">Starter</h3>
+                    <p class="text-slate-400 text-sm mb-6">For small businesses testing the waters</p>
+                    <div class="flex items-end gap-1 mb-6"><span class="font-outfit text-4xl font-bold">$299</span><span class="text-slate-400 text-sm mb-1">/month</span></div>
+                    <ul class="space-y-3 text-sm text-slate-600 mb-8">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> 200 outbound calls</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Lead qualification</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> CRM updates</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Weekly report</li>
+                    </ul>
+                    <a href="#contact" class="btn-outline w-full text-center block">Get Started</a>
+                </div>
+                <div class="pricing-card featured reveal">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-xs font-semibold px-4 py-1 rounded-full">Most Popular</div>
+                    <h3 class="font-semibold text-lg mb-1">Professional</h3>
+                    <p class="text-slate-400 text-sm mb-6">For growing teams needing consistent outreach</p>
+                    <div class="flex items-end gap-1 mb-6"><span class="font-outfit text-4xl font-bold text-gradient">$599</span><span class="text-slate-400 text-sm mb-1">/month</span></div>
+                    <ul class="space-y-3 text-sm text-slate-600 mb-8">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> 500 outbound calls</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Appointment setting</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Follow-up sequences</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> CRM management</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Bi-weekly report</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Dedicated account manager</li>
+                    </ul>
+                    <a href="#contact" class="btn-primary w-full text-center block">Get Started</a>
+                </div>
+                <div class="pricing-card reveal">
+                    <h3 class="font-semibold text-lg mb-1">Enterprise</h3>
+                    <p class="text-slate-400 text-sm mb-6">For large-scale campaigns and BPO needs</p>
+                    <div class="flex items-end gap-1 mb-6"><span class="font-outfit text-4xl font-bold">$1,199</span><span class="text-slate-400 text-sm mb-1">/month</span></div>
+                    <ul class="space-y-3 text-sm text-slate-600 mb-8">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Unlimited outbound calls</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Full campaign management</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Custom scripting</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Advanced analytics</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Priority support</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-sky-500"></i> Custom integrations</li>
+                    </ul>
+                    <a href="#contact" class="btn-outline w-full text-center block">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-20 px-6">
+        <div class="glass-panel max-w-7xl mx-auto">
+            <div class="text-center mb-14 reveal">
+                <div class="gradient-divider w-20 mx-auto mb-5"></div>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-3 text-slate-900">Why Choose <span class="text-gradient">Noelson Telecom?</span></h2>
+                <p class="text-slate-600 max-w-xl mx-auto">We combine telecom expertise with a customer-focused approach to deliver reliable results.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center reveal bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="w-16 h-16 rounded-2xl bg-sky-50 flex items-center justify-center mx-auto mb-5"><i class="fas fa-server text-sky-500 text-2xl"></i></div>
+                    <h3 class="font-semibold mb-2">Enterprise Telecom</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Robust SIP, VoIP, and DID infrastructure for carriers and businesses.</p>
+                </div>
+                <div class="text-center reveal bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center mx-auto mb-5"><i class="fas fa-shield-alt text-indigo-500 text-2xl"></i></div>
+                    <h3 class="font-semibold mb-2">Reliable & Scalable</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Processes that grow with your business, with consistent quality and reporting.</p>
+                </div>
+                <div class="text-center reveal bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-50 flex items-center justify-center mx-auto mb-5"><i class="fas fa-bolt text-emerald-500 text-2xl"></i></div>
+                    <h3 class="font-semibold mb-2">Fast Turnaround</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Get your campaigns up and running quickly, with results you can track.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-20 px-6">
+        <div class="glass-panel max-w-3xl mx-auto">
+            <div class="text-center mb-14 reveal">
+                <div class="gradient-divider w-20 mx-auto mb-5"></div>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-3 text-slate-900">Frequently Asked <span class="text-gradient">Questions</span></h2>
+                <p class="text-slate-600">Everything you need to know before we start.</p>
+            </div>
+            <div class="reveal">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question"><span>How quickly can you start my campaign?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Most campaigns can be launched within 3–5 business days. After our initial consultation, we'll prepare your script, build the calling list, and begin outreach.</p></div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question"><span>Do you provide crypto and Binance leads?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Yes! We specialize in providing high-intent Crypto and Binance leads. These are verified users who are actively interested in trading, bots, and portfolio management services.</p></div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question"><span>What CRM platforms do you use?</span><i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>We're proficient in Salesforce, HubSpot, Zoho, Pipedrive, and most major CRM platforms. If you use a custom system, we can learn it quickly.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-20 px-6">
+        <div class="glass-panel max-w-7xl mx-auto">
+            <div class="text-center mb-14 reveal">
+                <div class="gradient-divider w-20 mx-auto mb-5"></div>
+                <h2 class="text-3xl lg:text-4xl font-bold mb-3 text-slate-900">Get In <span class="text-gradient">Touch</span></h2>
+                <p class="text-slate-600 max-w-xl mx-auto">Let's discuss how we can help your business grow. Free consultation, no obligation.</p>
+            </div>
+            <div class="grid lg:grid-cols-5 gap-10 max-w-5xl mx-auto">
+                <div class="lg:col-span-2 reveal">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-8 h-full shadow-sm">
+                        <h3 class="font-semibold text-lg mb-6">Contact Information</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-sky-50 flex items-center justify-center flex-shrink-0"><i class="fas fa-envelope text-sky-500"></i></div>
+                                <div><p class="font-medium text-sm">Email</p><p class="text-slate-500 text-sm break-all">dosunoel182@gmail.com</p></div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-sky-50 flex items-center justify-center flex-shrink-0"><i class="fab fa-telegram-plane text-sky-500"></i></div>
+                                <div><p class="font-medium text-sm">Telegram</p><a href="https://t.me/Callerservices1" target="_blank" class="text-slate-500 text-sm hover:text-sky-500 transition break-all">t.me/Callerservices1</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-3 reveal">
+                    <form class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm" id="contact-form">
+                        <div class="grid md:grid-cols-2 gap-5 mb-5">
+                            <div><label class="block text-sm font-medium mb-1.5">Your Name</label><input type="text" placeholder="John Doe" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none transition text-sm"></div>
+                            <div><label class="block text-sm font-medium mb-1.5">Email Address</label><input type="email" placeholder="john@example.com" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none transition text-sm"></div>
+                        </div>
+                        <div class="mb-5"><label class="block text-sm font-medium mb-1.5">Subject</label><input type="text" placeholder="Campaign inquiry" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none transition text-sm"></div>
+                        <div class="mb-6"><label class="block text-sm font-medium mb-1.5">Message</label><textarea rows="5" placeholder="Tell us about your project..." required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none transition text-sm resize-none"></textarea></div>
+                        <button type="submit" class="btn-primary w-full">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="py-10 px-6 border-t border-slate-200 bg-white/80 backdrop-blur">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <img src="https://play-lh.googleusercontent.com/AKQn47okB4Qh5Qs0zx_CXj5iFRdePtpTSnf-T1UjFW49aSjwAnaTqaGy-35JqwHOKETvan8F4B6WkMQ6XiERFQw=w240-h480-rw" alt="Noelson Telecom Logo" class="h-8 w-auto object-contain rounded-md">
+            <p class="font-outfit font-bold text-gradient text-lg">Noelson Telecom</p>
+        </div>
+        <p class="text-slate-400 text-sm">© 2026 Noelson Telecom. All rights reserved.</p>
+        <div class="flex gap-5">
+            <a href="#" class="text-slate-400 hover:text-sky-500 transition"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="text-slate-400 hover:text-sky-500 transition"><i class="fab fa-twitter"></i></a>
+            <a href="https://t.me/Callerservices1" target="_blank" class="text-slate-400 hover:text-sky-500 transition"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+    </div>
+</footer>
+
+<script>
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 40); });
+const menuToggle = document.getElementById('menu-toggle');
+const mobileNav = document.getElementById('mobile-nav');
+menuToggle.addEventListener('click', () => {
+    mobileNav.classList.toggle('open');
+    const icon = menuToggle.querySelector('i');
+    icon.classList.toggle('fa-bars');
+    icon.classList.toggle('fa-times');
+});
+document.querySelectorAll('#mobile-nav a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileNav.classList.remove('open');
+        const icon = menuToggle.querySelector('i');
+        icon.classList.add('fa-bars');
+        icon.classList.remove('fa-times');
+    });
+});
+const revealElements = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
+    });
+}, { threshold: 0.12 });
+revealElements.forEach(el => revealObserver.observe(el));
+function toggleFaq(element) {
+    const isActive = element.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(item => { item.classList.remove('active'); });
+    if (!isActive) { element.classList.add('active'); }
+}
+document.getElementById('contact-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Thank you! Your message has been sent. We will get back to you within 24 hours.');
+    e.target.reset();
+});
+</script>
+</body>
+</html>
